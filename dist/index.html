@@ -4,10 +4,57 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>travel</title>
+  <title>Travel Tracker</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
+  <div class="nav-wrapper">
+    <nav class="top-nav">
+      <!-- <div class="white-circle">
+        <img src="./images/succulent.svg" height="100px" width="100px">
+      </div> -->
+
+      <div class="welcome-text">
+        <h1>Travel Tracker</h1>
+        <h2>Welcome, </h2>
+        <h2>You've spent $$$</h2>
+      </div>
+    </nav>
+    <nav class="info">
+      <h1>Book a trip</h1>
+      <div class="num-travelers-wrapper">
+        <label for="number-travelers">Travelers</label>
+        <input class="number-travelers-input" id="numberOfTravelersInput" type="number" min="1" placeholder="# of travelers" required />
+      </div>
+      <div class="calendar-wrapper">
+        <label for="calendar">Select your date</label>
+        <input class="calendar" id="calendar" name="calendar" value="Sat Jun 22 2019"></input>
+      </div>
+    </nav>
+  </div>
+<main>
+  <div class="box-wrapper">
+    <section class="past-trips-box">
+      <h3>Past Trips</h3>
+      <h3>stuff here</h3>
+      <h3>stuff here</h3>
+    </section>
+    <section class="present-trips-box">
+      <h3>Present Trips</h3>
+      <h3>stuff here</h3>
+      <h3>stuff here</h3>
+    </section>
+    <section class="upcoming-trips-box">
+      <h3>Upcoming Trips</h3>
+      <h3>stuff here</h3>
+      <h3>stuff here</h3>
+    </section>
+    <section class="pending-trips-box">
+      <h3>Pending Trips</h3>
+      <h3>stuff here</h3>
+      <h3>stuff here</h3>
+    </section>
+  </div>
+</main>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
