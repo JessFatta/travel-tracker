@@ -1,7 +1,9 @@
 //IMPORTS
 import './css/styles.css';
 import datepicker from 'js-datepicker';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+
+
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/airplane.png';
