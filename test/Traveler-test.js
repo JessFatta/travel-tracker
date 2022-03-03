@@ -34,4 +34,9 @@ describe('Traveler', () => {
   it('should have a traveler type', () => {
     expect(traveler.travelerType).to.equal('relaxer')
   })
+
+  it('should have a method to calculate total amount spent on trips and include a 10% agent fee', () => {
+    expect(traveler.totalAmountSpent())
+  })
+  //maybe it should store an array of trips?
 })
