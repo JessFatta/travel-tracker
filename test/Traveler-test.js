@@ -23,5 +23,7 @@ describe('Traveler', () => {
     expect(traveler).to.be.an.instanceof(Traveler)
   })
 
-  
+  it('should have an id', () => {
+    expect(traveler.id).to.equal(1)
+  })
 })
