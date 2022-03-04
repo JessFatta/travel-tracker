@@ -40,15 +40,15 @@ describe('Traveler', () => {
     expect(traveler1.travelerType).to.equal('relaxer')
   })
 
-  // it('should have a method to calculate total amount spent on trips and include a 10% agent fee', () => {
-  //   expect(traveler.getYearlyAmountSpent())
-  // })
-
+  
   // it('should be able to store all trips for a user', () => {
-  //   //expect(traveler.addTripsForCurrentUser())
-  //   //maybe it should store an array of trips?
-  // })
-
+  //     expect(traveler1.allTripsForCurrentUser().to.deep.equal([]))
+  //     //maybe it should store an array of trips?
+  //   })
+    
+    // it('should have a method to calculate total amount spent on trips and include a 10% agent fee', () => {
+    //   expect(traveler1.getYearlyAmountSpent())
+    // })
   //should be able to see past, current, upcoming, and pending trips
   //should be able to make a trip request
   //should be able to select a date, duration, num travelers, select destination
