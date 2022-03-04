@@ -4,6 +4,12 @@ class Traveler {
     this.name = travelerData.name;
     this.travelerType = travelerData.travelerType
   }
+
+
+
+  // allTripsForCurrentUser() {
+
+  // }
 }
 
 export default Traveler
