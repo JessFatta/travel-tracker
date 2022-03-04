@@ -35,7 +35,7 @@ const destinationTestData = [
   },
   {
     id: 3,
-    destination: "Sydney, Austrailia",
+    destination: "Sydney, Australia",
     estimatedLodgingCostPerDay: 130,
     estimatedFlightCostPerPerson: 950,
     image: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80",
@@ -46,8 +46,8 @@ const destinationTestData = [
 const tripsTestData = [
   {
     id: 1,
-    userID: 44,
-    destinationID: 49,
+    userID: 1,
+    destinationID: 3,
     travelers: 1,
     date: "2022/09/16",
     duration: 8,
@@ -56,8 +56,8 @@ const tripsTestData = [
   },
   {
     id: 2,
-    userID: 35,
-    destinationID: 25,
+    userID: 2,
+    destinationID: 2,
     travelers: 5,
     date: "2022/10/04",
     duration: 18,
@@ -67,13 +67,24 @@ const tripsTestData = [
   {
     id: 3,
     userID: 3,
-    destinationID: 22,
+    destinationID: 1,
+    travelers: 4,
+    date: "2022/04/22",
+    duration: 7,
+    status: "approved",
+    suggestedActivities: []
+  },
+  {
+    id: 4,
+    userID: 3,
+    destinationID: 2,
     travelers: 4,
     date: "2022/05/22",
     duration: 17,
     status: "approved",
     suggestedActivities: []
   }
+  
 ]
 
 
