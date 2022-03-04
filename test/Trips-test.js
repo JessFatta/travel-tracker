@@ -1,6 +1,7 @@
 import { expect } from 'chai'
-import { tripsTestData } from './test-data'
+import { destinationTestData, tripsTestData, travelerTestData } from './test-data'
 import Trip from '../src/Trip'
+import Destination from '../src/Destination'
 
 describe('Trips', () => {
   let trip1;
@@ -18,7 +19,7 @@ describe('Trips', () => {
     expect(Trip).to.be.a('function')
   })
 
-  it('should instantiate the Trips class', () => {
+  it('should instantiate the Trip class', () => {
     expect(trip1).to.be.an.instanceof(Trip)
     expect(trip2).to.be.an.instanceof(Trip)
     expect(trip3).to.be.an.instanceof(Trip)
@@ -29,11 +30,11 @@ describe('Trips', () => {
   })
 
   it('should have a user ID', () => {
-    expect(trip1.userID).to.equal(44)
+    expect(trip1.userID).to.equal(1)
   })
 
   it('should have a destination ID', () => {
-    expect(trip1.destinationID).to.equal(49)
+    expect(trip1.destinationID).to.equal(3)
   })
 
   it('should have the amount of travelers', () => {
@@ -54,5 +55,15 @@ describe('Trips', () => {
 
   it('should have suggested activities', () => {
     expect(trip1.suggestedActivities).to.deep.equal([])
+  })
+
+  it('should have a method to return the destination name', () => {
+    trip1.getDestinationName(destinationTestData)
+    //console.log(trip1)
+    expect(trip1.destinationName).to.equal('Sydney, Australia')
+  })
+
+  it('should calculate a total cost', () => {
+    expect(trip1.calculateTripCost(destinationTestData)).to.equal(2189)
   })
 })
