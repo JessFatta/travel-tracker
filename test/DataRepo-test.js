@@ -13,7 +13,7 @@ describe('DataRepo', () => {
   let destinationData
   // let traveler1
   // let traveler2
-   let traveler3
+  //let traveler3
   //let travelers;
   let dataRepoTestData
   
@@ -25,13 +25,14 @@ describe('DataRepo', () => {
     destinationData = destinationTestData.map((destination) => new Destination(destination))
     // traveler1 = new Traveler(travelerTestData[0])
     // traveler2 = new Traveler(travelerTestData[1])
-    traveler3 = new Traveler(travelerTestData[2])
+    //traveler3 = new Traveler(travelerTestData[2])
     
     dataRepoTestData = {
       travelers: travelerData,
       trips: tripData,
       destinations: destinationData
     }
+    
     dataRepo = new DataRepo(dataRepoTestData)
   })
 
