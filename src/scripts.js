@@ -20,9 +20,13 @@ import {
 //let dayjs;
 let daypicker;
 let travelers;
-let allTravelers;
-let allTrips;
-let allDestinations;
+let trips;
+let destinations;
+
+
+// let allTravelers;
+// let allTrips;
+// let allDestinations;
 
 
 //------QUERY SELECTORS
@@ -31,12 +35,7 @@ const welcomeName = document.querySelector('#welcomeName')
 
 const datePicker = datepicker('#calendar', {
   onSelect: (instance, date) => {
-    //loadHydrationCard(currentUser)
-    //hydrationChart.destroy()
-    //displayHydrationChart()
-    //loadSleepCard(currentUser)
-    //sleepChart.destroy()
-    //displaySleepChart()
+  ///put functions here 
   },
   startDate: new Date(2019, 7, 2),
   minDate: new Date(2019, 7, 2),
@@ -54,51 +53,35 @@ const fetchAllData = () => {
 }
 
 
-// const getRandomIndex = (array) => {
-//   return Math.floor(Math.random() * array.length)
-// }
-
-
-// const selectRandomTraveler = () => {
-//   const randomIndex = getRandomIndex(travelers)
-//   return travelers[randomIndex]
-// }
-
-
-
-// const displayRandomTraveler = () => {
-//   let currentTraveler = selectRandomTraveler()
-//   displayTravelerName(currentTraveler)
-// }
-
-// displayRandomTraveler()
-
 const parseAllData = (data) => {
-  allTravelers = data[0].travelers.map(traveler => new Traveler(traveler))
+  travelers = data[0].travelers.map(traveler => new Traveler(traveler))
+
   //parseTravelerData(allTravelers)
-  allTrips = data[2].trips.map(trip => new Trip(trip))
-  allDestinations = data[1].destinations.map(destination => new Destination(destination))
-  //displayTravelerName()
+  trips = data[2].trips.map(trip => new Trip(trip))
+  
+  destinations = data[1].destinations.map(destination => new Destination(destination))
+  
+  getRandomTraveler(travelers)
+
 }
+
 
 // const parseTravelerData = (travelerData) => {
-//   const filteredTravelerData = {}
-//   travelerData.forEach()
+  //   const filteredTravelerData = {}
+  //   travelerData.forEach()
   
-// }
+  // }
 
+  const getRandomTraveler = (array) => {
+    randomIndex = Math.floor(Math.random() * array.length)
+    displayTravelerName(randomIndex)
+  }
+  
+let randomIndex
 
-
-
-
-
-
-
-
-const displayTravelerName = (travelerData) => {
-  welcomeName.innerText = `Welcome, ${allTravelers[0].name}`
+const displayTravelerName = (traveler) => {
+  welcomeName.innerText = `Welcome, ${travelers[randomIndex].getFirstName()}`
 }
-
 
 
 
