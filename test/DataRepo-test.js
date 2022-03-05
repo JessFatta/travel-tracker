@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 
 import Traveler from '../src/Traveler'
-import DataRepo from '../src/DataRepo'
 import Trip from '../src/Trip'
 import Destination from '../src/Destination'
+import DataRepo from '../src/DataRepo'
 import { travelerTestData, tripsTestData, destinationTestData } from './test-data'
 
 describe('DataRepo', () => {
@@ -32,7 +32,7 @@ describe('DataRepo', () => {
       trips: tripData,
       destinations: destinationData
     }
-    
+
     dataRepo = new DataRepo(dataRepoTestData)
   })
 
@@ -57,6 +57,7 @@ describe('DataRepo', () => {
   })
 
   it('should calculate annual trips cost for a user', () => {
-    expect(dataRepo.getAnnualTripsCost()).to.equal(1990)
+    console.log(tripsTestData[2])
+    expect(dataRepo.getAnnualTripsCost(tripsTestData[2]).id).to.equal()
   })
 })
