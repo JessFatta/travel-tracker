@@ -1,3 +1,5 @@
+import { travelerTestData } from "../test/test-data";
+
 class Traveler {
   constructor(travelerData) {
     this.id = travelerData.id;
@@ -5,11 +7,12 @@ class Traveler {
     this.travelerType = travelerData.travelerType
   }
 
+  getFirstName() {
+    const firstName = this.name.split(" ")[0];
+    return firstName
+  }
 
-
-  // allTripsForCurrentUser() {
-
-  // }
 }
+
 
 export default Traveler
