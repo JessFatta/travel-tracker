@@ -59,11 +59,10 @@ describe('Trips', () => {
 
   it('should have a method to return the destination name', () => {
     trip1.getDestinationName(destinationTestData)
-    //console.log(trip1)
     expect(trip1.destinationName).to.equal('Sydney, Australia')
   })
 
   it('should calculate a total cost', () => {
-    expect(trip1.calculateTripCost(destinationTestData)).to.equal(2189)
+    expect(trip1.calculateTripCost(destinationTestData)).to.equal(3234)
   })
 })
