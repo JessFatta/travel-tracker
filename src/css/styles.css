@@ -133,8 +133,13 @@ nav, section {
   justify-content: space-between;
 }
 
+.destination-name {
+  font-size: 1vw;
+}
+
 
 .scrollable {
   height: 100%;
   overflow-y: auto;
 }
+
