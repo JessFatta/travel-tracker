@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import { travelerTestData } from './test-data'
 import Traveler from '../src/Traveler'
 
+
 describe('Traveler', () => {
   //let traveler;
   //let travelerData;
@@ -38,6 +39,10 @@ describe('Traveler', () => {
 
   it('should have a traveler type', () => {
     expect(traveler1.travelerType).to.equal('relaxer')
+  })
+
+  it('should have a method to return the travelers first name', () => {
+    expect(traveler1.getFirstName()).to.equal('Ham')
   })
 
   
