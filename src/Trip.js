@@ -31,7 +31,7 @@ class Trip {
       if(this.destinationID === destination.id) {
         const flightsCost = destination.estimatedFlightCostPerPerson * this.travelers
         const lodgingCost = destination.estimatedLodgingCostPerDay * this.duration * this.travelers
-        tripCost += flightsCost
+        tripCost += flightsCost * 2
         tripCost += lodgingCost
       }
     })
