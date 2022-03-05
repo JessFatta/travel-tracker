@@ -2,6 +2,7 @@ import { expect } from 'chai'
 import { destinationTestData, tripsTestData, travelerTestData } from './test-data'
 import Trip from '../src/Trip'
 import Destination from '../src/Destination'
+import DataRepo from '../src/DataRepo'
 
 describe('Trips', () => {
   let trip1;
