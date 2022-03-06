@@ -37,10 +37,12 @@ let dataRepo
 const calendar = document.querySelector('#calendar')
 const welcomeName = document.querySelector('#welcomeName')
 const presentTripsBox = document.querySelector('.present-trips-box')
+const destinationsDropDown = document.querySelector('#dropDownMenuDestinations')
 
 const datePicker = datepicker('#calendar', {
   onSelect: (instance, date) => {
-  ///put functions here 
+  ///put functions here - remember to do a .destroy() after each one to 
+  // make sure it shows new data on a new calendar date? maybe?
   },
   startDate: new Date(2022, 2, 4),
   minDate: new Date(2022, 2, 4),
@@ -57,7 +59,6 @@ const fetchAllData = () => {
   ]).then((data) => parseAllData(data))
 }
 
-
 const parseAllData = (data) => {
   const dataRepo = {}
   console.log(dataRepo)
@@ -67,9 +68,9 @@ const parseAllData = (data) => {
   dataRepo.destinations = data[1].destinations.map(destination => new Destination(destination))
   
   allData = new DataRepo(dataRepo)
-  //console.log(allData)
-  getRandomTraveler(allData.travelers)
 
+  getRandomTraveler(allData.travelers)
+  populateDestinationsDropDown(allData.destinations)
 }
 
 const getRandomTraveler = (array) => {
@@ -79,16 +80,18 @@ const getRandomTraveler = (array) => {
 
 const displayTravelerName = (traveler) => {
   welcomeName.innerText = `Welcome, ${allData.travelers[randomIndex].getFirstName()}`
-  displayTrips()
+  displayCurrentTrips()
 }
 
-const displayTrips = () => {
+const displayCurrentTrips = () => {
   const userTrips = allData.getTravelerTrips(randomIndex + 1)
-  console.log(userTrips)
+  //console.log(userTrips)
 
   userTrips.forEach(trip => {
     let currentDestination = allData.destinations.find(location => trip.destinationID === location.id)
-    console.log(currentDestination)
+    //console.log(currentDestination)
+
+      
 
     presentTripsBox.innerHTML += `
       <p class="destination-name">${currentDestination.destination}</p>
@@ -97,9 +100,28 @@ const displayTrips = () => {
       <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${currentDestination.estimatedFlightCostPerPerson}</p><br><br>
     `
   })
+  //displayPastTrips()
 }
 
+// const displayPastTrips = () => {
+//   const userTrips = allData.getTravelerTrips(randomIndex + 1)
+//   console.log(userTrips)
+//   userTrips.forEach(trip => {
 
+//     let pastTrip = allData.trips.filter(trip => trip.date.isSame(dayjs('1 / 1 / 2021'), 'year'))
+//     console.log(pastTrip)
+//   })
+
+// }
+
+
+//let allDestinations; 
+
+const populateDestinationsDropDown = (destinations) => {
+  allData.destinations.forEach(destination => {
+    destinationsDropDown.innerHTML += `<option value="${destination.destination}">${destination.destination}</option>`
+  })  
+}
 
 
 //------EVENT LISTENERS
