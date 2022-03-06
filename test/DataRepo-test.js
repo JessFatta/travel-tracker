@@ -40,7 +40,7 @@ describe('DataRepo', () => {
     expect(DataRepo).to.be.a('function')
   })
 
-  it('should instantiate TravelersRepo', () => {
+  it('should instantiate DataRepo', () => {
     expect(dataRepo).to.be.an.instanceof(DataRepo)
   })
 
@@ -52,12 +52,31 @@ describe('DataRepo', () => {
   })
 
   it('should store a list of trips for a traveler', () => {
-    expect(dataRepo.getTravelerTrips()).to.deep.equal
-    ([])
+    expect(dataRepo.getTravelerTrips(3)).to.deep.equal
+    ([{
+      id: 3,
+      userID: 3,
+      destinationID: 1,
+      travelers: 4,
+      date: "2022/04/22",
+      duration: 7,
+      status: "approved",
+      suggestedActivities: []
+    },
+    {
+      id: 4,
+      userID: 3,
+      destinationID: 2,
+      travelers: 4,
+      date: "2022/05/22",
+      duration: 17,
+      status: "approved",
+      suggestedActivities: []
+    }])
   })
 
-  it('should calculate annual trips cost for a user', () => {
-    console.log(tripsTestData[2])
-    expect(dataRepo.getAnnualTripsCost(tripsTestData[2]).id).to.equal()
-  })
+  // it('should calculate annual trips cost for a user', () => {
+  //   console.log(tripsTestData[2])
+  //   expect(dataRepo.getAnnualTripsCost(tripsTestData[2]).id).to.equal()
+  // })
 })
