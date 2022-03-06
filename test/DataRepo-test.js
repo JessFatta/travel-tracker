@@ -11,10 +11,6 @@ describe('DataRepo', () => {
   let travelerData
   let tripData
   let destinationData
-  // let traveler1
-  // let traveler2
-  //let traveler3
-  //let travelers;
   let dataRepoTestData
   
 
@@ -23,9 +19,6 @@ describe('DataRepo', () => {
     travelerData = travelerTestData.map((traveler) => new Traveler(traveler))
     tripData = tripsTestData.map((trip) => new Trip(trip))
     destinationData = destinationTestData.map((destination) => new Destination(destination))
-    // traveler1 = new Traveler(travelerTestData[0])
-    // traveler2 = new Traveler(travelerTestData[1])
-    //traveler3 = new Traveler(travelerTestData[2])
     
     dataRepoTestData = {
       travelers: travelerData,
@@ -44,11 +37,16 @@ describe('DataRepo', () => {
     expect(dataRepo).to.be.an.instanceof(DataRepo)
   })
 
-  it('should have traveler, trip, and destination data', () => {
+  it('should have traveler data', () => {
     expect(dataRepo.travelers).to.deep.equal(travelerData)
-    expect(dataRepo.trips).to.deep.equal(tripData)
-    expect(dataRepo.destinations).to.deep.equal(destinationData)
+  })
 
+  it('should have trip data', () => {
+    expect(dataRepo.trips).to.deep.equal(tripData)
+  })
+
+  it('should have destination data', () => {
+    expect(dataRepo.destinations).to.deep.equal(destinationData)
   })
 
   it('should store a list of trips for a traveler', () => {
