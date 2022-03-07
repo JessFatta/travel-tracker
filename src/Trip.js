@@ -24,6 +24,7 @@ class Trip {
     return destination
   }
 
+
   calculateTripCost(destinationTestData) {
     let tripCost = 0;
     let agentCharge = .1;
