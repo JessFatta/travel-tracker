@@ -49,7 +49,11 @@ describe('DataRepo', () => {
     expect(dataRepo.destinations).to.deep.equal(destinationData)
   })
 
-  it('should store a list of trips for a traveler', () => {
+  it('should have a method to return the traveler', () => {
+    expect(dataRepo.getNewTraveler(travelerData)).to.equal()
+  })
+
+  it('should have a method to store a list of trips for a traveler', () => {
     expect(dataRepo.getTravelerTrips(3)).to.deep.equal
     ([{
       id: 3,
@@ -71,6 +75,14 @@ describe('DataRepo', () => {
       status: "approved",
       suggestedActivities: []
     }])
+  })
+
+  it('should have a method to determine current date', () => {
+    expect(dataRepo.getCurrentDate(tripData)).to.equal()
+  })
+
+  it('should have a method to determine past trips', () => {
+    expect(dataRepo.getPastTrips(tripData)).to.equal()
   })
 
   // it('should calculate annual trips cost for a user', () => {
