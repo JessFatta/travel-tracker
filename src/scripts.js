@@ -1,4 +1,4 @@
-//------IMPORTS
+//------IMPORTS------
 import './css/styles.css';
 import './images/airplane.png';
 
@@ -18,19 +18,23 @@ import {
 } from './apiCalls'
 
 
-//------GLOBALS
+//------GLOBALS------
 //let dayjs;
 let travelers;
 let trips;
 let destinations;
-let randomIndex;
+//let randomIndex;
 let allData = {}
 let dataRepo
 let currentUserID
 let currentTraveler;
+let approvedTrips
+let pendingTrips
+let pastTrips
 
 
-//------QUERY SELECTORS
+
+//------QUERY SELECTORS------
 const welcomeName = document.querySelector('#welcomeName')
 const annualCost = document.querySelector('#spentText')
 const calendar = document.querySelector('#startDateInput')
@@ -40,15 +44,14 @@ const tripDurationInput = document.querySelector('#tripDurationInput')
 const submitButton = document.querySelector('.enter-button')
 const form = document.querySelector('.info')
 
-
 const presentTripsBox = document.querySelector('.present-trips-box')
 const pastTripsBox = document.querySelector('.past-trips-box')
 const upcomingTripsBox = document.querySelector('.upcoming-trips-box')
 const pendingTripsBox = document.querySelector('.pending-trips-box')
-const pendingTripText = document.querySelector('.destination-name')
+const pendingTripText = document.querySelector('.destination-name-pending')
 
 
-//------FUNCTIONS
+//------FUNCTIONS------
 const fetchAllData = () => {
   Promise.all([
     fetchTravelerData(),
@@ -66,62 +69,81 @@ const parseAllData = (data) => {
   
   allData = new DataRepo(dataRepo)
 
-  currentUserID = getRandomTraveler(allData.travelers)
-  populateDestinationsDropDown(allData.destinations)
+  //currentUserID = getRandomTraveler(allData.travelers)
+  currentUserID = 3
+  getUserByID(currentUserID)
+  console.log(currentTraveler)
+
   parseMethods()
+  populateDestinationsDropDown(allData.destinations)
+}
+
+const getUserByID = (currentUserID) => {
+  currentTraveler = allData.travelers.find(traveler => currentUserID === traveler.id)
+  
+  displayTravelerName(currentTraveler.name)
 }
 
 const parseMethods = () => {
   const travelerTrips = allData.trips.filter(trip => trip.userID === currentTraveler.id)
-  allData.sortTrips(travelerTrips)
+  allData.travelersTrips = travelerTrips
+  allData.sortTrips()
+  displayTravelerName(currentTraveler.name)
 
-  const approvedTrips = allData.thisYearsApproved.map(trip => new Trip(trip))
-  allData.sortTrips(approvedTrips)
+  //currentTraveler.approvedTrips = allData.thisYearsApproved.map(trip => new Trip(trip))
+  //allData.sortTrips()
 
-  const pendingTrips = allData.thisYearsPending.map(trip => new Trip(trip))
-  allData.sortTrips(pendingTrips)
-  
+  //currentTraveler.pendingTrips = allData.thisYearsPending.map(trip => new Trip(trip))
+  //allData.sortTrips(pendingTrips)
+
+  //currentTraveler.pastTrips = allData.previousYearsTrip.map(trip => new Trip(trip))
+  //allData.sortTrips(pastTrips)
+  //console.log(currentTraveler.pastTrips)
+}
+
+
+// const getRandomTraveler = (array) => {
+//   randomIndex = Math.floor(Math.random() * array.length)
+//   currentTraveler = allData.getNewTraveler(randomIndex)
+//   //console.log(currentTraveler)
+//   displayTravelerName(currentTraveler.name)
+// }
+
+const displayTravelerName = (traveler) => {
+  welcomeName.innerText = `Welcome, ${traveler}`
+  //displayCurrentTrips(currentTraveler.trips)
+  displayAnnualCost()
+  displayUpcomingTrips()
+  displayPendingTrips()
   displayPastTrips(currentTraveler.trips)
 }
 
 
-const getRandomTraveler = (array) => {
-  randomIndex = Math.floor(Math.random() * array.length)
-  currentTraveler = allData.getNewTraveler(randomIndex)
-  //console.log(currentTraveler)
-  displayTravelerName(currentTraveler.name)
-}
-
-const displayTravelerName = (traveler) => {
-  welcomeName.innerText = `Welcome, ${traveler}`
-  displayCurrentTrips()
-  displayAnnualCost()
-  displayUpcomingTrips()
-  displayPendingTrips()
-}
-
-
-const displayCurrentTrips = () => { 
-  //console.log(currentTraveler)
-  //console.log(allData.travelersTrips)
-  allData.thisYearsTrip.forEach(trip => {
-    let dest = allData.getDestinationName(trip.destinationID)
-    //console.log(dest)
-    presentTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
-  })
-}
+// const displayCurrentTrips = () => { 
+//   let newTrip
+//   //console.log(currentTraveler)
+//   //console.log(allData.travelersTrips)
+//   allData.thisYearsTrip.forEach(trip => {
+//     newTrip = trip
+//     let dest = allData.getDestinationName(trip.destinationID)
+//     //console.log(dest)
+//     presentTripsBox.innerHTML += `
+//     <p class="destination-name">${dest.destination}</p>
+//     <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
+//     <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
+//     <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
+//     <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
+//     <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
+//     <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
+//     `
+//   })
+// }
 
 const displayPastTrips = () => { 
+let newTrip;
   //console.log(allData.previousYearsTrip)
   allData.previousYearsTrip.forEach(trip => {
+    newTrip = trip
     let dest = allData.getDestinationName(trip.destinationID)
     //let past = allData.sortTrips(dest)
     //console.log(past)
@@ -138,7 +160,9 @@ const displayPastTrips = () => {
 }
 
 const displayUpcomingTrips = () => { 
+  let newTrip
   allData.thisYearsTrip.forEach(trip => {
+    newTrip = trip
     let dest = allData.getDestinationName(trip.destinationID)
     //let past = allData.sortTrips(dest)
     //console.log(past)
@@ -157,22 +181,23 @@ const displayUpcomingTrips = () => {
 const displayPendingTrips = () => { 
   allData.thisYearsPending.forEach(trip => {
     let dest = allData.getDestinationName(trip.destinationID)
+    let cost = allData.calculateTripCost(trip)
+    console.log(cost)
+
     //let past = allData.sortTrips(dest)
     //console.log(past)
     pendingTripsBox.innerHTML += `
     <p class="destination-name">${dest.destination}</p>
     <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date:${dayjs(trip.date).format('M/D/YYYY')}</p>
+    <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
     <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
     <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
     <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
+    <p class="total-estimated-cost">Total Estimated Cost: $${cost}</p>
     <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
     `
   })
 }
-
-
-
 
 const populateDestinationsDropDown = (destinations) => {
   allData.destinations.forEach(destination => {
@@ -180,14 +205,12 @@ const populateDestinationsDropDown = (destinations) => {
   })  
 }
 
-
 const displayAnnualCost = () => {
   const annual = allData.getAnnualTripsCost(currentTraveler.id)
   annualCost.innerHTML = `
   <h2 id="spentText">You've spent $${annual} on trips this year</h2>
   `
 }
-
 
 const createNewTrip = (event) => {
   console.log("HEY")
@@ -217,7 +240,7 @@ const createNewTrip = (event) => {
 }
 
 
-//------EVENT LISTENERS
+//------EVENT LISTENERS------
 window.addEventListener('load', fetchAllData)
 submitButton.addEventListener('click', event => {
   createNewTrip(event)
