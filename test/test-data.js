@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 const travelerTestData = [
   { 
     id: 1,
@@ -79,7 +81,7 @@ const tripsTestData = [
     userID: 3,
     destinationID: 2,
     travelers: 4,
-    date: "2022/05/22",
+    date: "2021/05/22",
     duration: 17,
     status: "approved",
     suggestedActivities: []
