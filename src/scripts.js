@@ -112,15 +112,15 @@ const createNewTrip = (event) => {
   }
   allData.thisYearsPending.push(newTrip)
 
-  upcomingTripsBox.innerHTML = ''
-  pastTripsBox.innerHTML = ''
-  pendingTripsBox.innerHTML = ''
-
   postNewTrip(newTrip)
+
   .then(data => {pendingTripText.innerText += `${data.message}`
   fetchAllData()})
   .catch(error => console.log(error))
-
+  
+  upcomingTripsBox.innerHTML = ''
+  pastTripsBox.innerHTML = ''
+  pendingTripsBox.innerHTML = ''
   form.reset()
 }
 
