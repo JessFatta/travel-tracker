@@ -30,11 +30,11 @@ import {
 const welcomeName = document.querySelector('#welcomeName')
 const annualCost = document.querySelector('#spentText')
 const destinationsDropDown = document.querySelector('#dropDownMenuDestinations')
-const presentTripsBox = document.querySelector('.present-trips-box')
+//const presentTripsBox = document.querySelector('.present-trips-box')
 const pastTripsBox = document.querySelector('.past-trips-box')
 const upcomingTripsBox = document.querySelector('.upcoming-trips-box')
 const pendingTripsBox = document.querySelector('.pending-trips-box')
-const pendingTripText = document.querySelector('.destination-name-pending')
+//const pendingTripText = document.querySelector('.destination-name-pending')
 
 
 
