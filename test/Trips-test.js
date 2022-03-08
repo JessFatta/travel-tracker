@@ -3,6 +3,7 @@ import { destinationTestData, tripsTestData, travelerTestData } from './test-dat
 import Trip from '../src/Trip'
 import Destination from '../src/Destination'
 import DataRepo from '../src/DataRepo'
+import dayjs from 'dayjs'
 
 describe('Trips', () => {
   let trip1;
@@ -43,7 +44,7 @@ describe('Trips', () => {
   })
 
   it('should have a date', () => {
-    expect(trip1.date).to.equal('2022/09/16')
+    expect(trip1.date.year()).to.equal(2022)
   })
 
   it('should have a duration', () => {
