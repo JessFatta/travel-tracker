@@ -59,7 +59,7 @@ class DataRepo {
     const destName = this.destinations.find(destination => {
       return destination.id === destinationID
     })
-    console.log(destName.destination)
+    //console.log(destName.destination)
     return destName
   }
 
