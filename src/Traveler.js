@@ -6,11 +6,12 @@ class Traveler {
     this.id = travelerData.id;
     this.name = travelerData.name;
     this.travelerType = travelerData.travelerType
-    this.allTrips ;
-    this.pastTrips = [];
-    this.presentTrips = [];
-    this.upcomingTrips = [];
-    this.pendingTrips = [];
+    this.allTrips;
+    // this.pastTrips = [];
+    // this.travelersTrips = []
+    // this.presentTrips = [];
+    // this.upcomingTrips = [];
+    // this.pendingTrips = [];
   }
 
   getFirstName() {
