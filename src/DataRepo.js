@@ -11,16 +11,11 @@ class DataRepo {
     this.travelers = data.travelers;
     this.trips = data.trips;
     this.destinations = data.destinations;
-    //this.pastTrips = [];
     this.travelersTrips = [];
-    //this.currentTrips = [];
-    //this.pendingTrips = [];
     this.thisYearsTrip = [];
     this.thisYearsApproved = [];
     this.previousYearsTrip = [];
     this.thisYearsPending = [];
-
-    //this.currentTraveler;
   }
 
   getNewTraveler(id) {
@@ -41,7 +36,6 @@ class DataRepo {
     const destName = this.destinations.find(destination => {
       return destination.id === destinationID
     })
-    //console.log(destName.destination)
     return destName
   }
 
@@ -59,9 +53,6 @@ class DataRepo {
     this.previousYearsTrip.push(trip)
     }
   })
-  console.log(this.previousYearsTrip)
-  console.log(this.thisYearsTrip)
-  console.log(this.thisYearsPending)
   }
 
   getAnnualTripsCost(userID) {
@@ -77,12 +68,9 @@ class DataRepo {
   }
 
   calculateTripCost(trip) {
-    //console.log(this.destinations)
     let currentDest = this.destinations.find(dest => dest.id === trip.destinationID)
-    console.log(currentDest)
     let totalCosts = (trip.duration * currentDest.estimatedLodgingCostPerDay) + (trip.travelers * currentDest.estimatedFlightCostPerPerson)
     let totalWithAgent = totalCosts + (totalCosts * 1.1)
-    console.log(totalWithAgent)
     return totalWithAgent.toFixed(2)
   }
 }
