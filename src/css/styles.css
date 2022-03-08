@@ -38,14 +38,13 @@ h1 {
   font-size: 3vw;
 }
 
-
 nav, section {
   border-radius: 3px;
 }
 
 .nav-wrapper {
   display: flex;
-  height: 20vh;
+  height: 24vh;
   justify-content: space-between;
   margin: 1rem;
 }
@@ -62,6 +61,7 @@ nav, section {
 .welcome-text {
   justify-content: space-around;
 }
+
 
 #travelTrackerText {
   padding-left: 160px;
@@ -90,6 +90,7 @@ nav, section {
   align-items: center;
   width: 62%;
   padding: .5vw;
+  align-items: flex-start;
 }
 
 .welcome-nav, .info, .past-trips-box, .present-trips-box, .upcoming-trips-box, .pending-trips-box {
