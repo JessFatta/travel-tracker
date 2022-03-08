@@ -2,7 +2,6 @@ import { expect } from 'chai'
 import { travelerTestData } from './test-data'
 import Traveler from '../src/Traveler'
 
-
 describe('Traveler', () => {
   //let traveler;
   //let travelerData;
