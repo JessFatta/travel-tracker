@@ -17,13 +17,20 @@ import {
   errorHandling
 } from './apiCalls'
 
+import {
+  displayTravelerName, 
+  displayPastTrips, 
+  displayUpcomingTrips, 
+  displayPendingTrips, 
+  populateDestinationsDropDown, 
+  displayAnnualCost
+} from './domUpdates'
+
 
 //------GLOBALS------
-//let dayjs;
 let travelers;
 let trips;
 let destinations;
-//let randomIndex;
 let allData = {}
 let dataRepo
 let currentUserID
@@ -35,19 +42,12 @@ let pastTrips
 
 
 //------QUERY SELECTORS------
-const welcomeName = document.querySelector('#welcomeName')
-const annualCost = document.querySelector('#spentText')
 const calendar = document.querySelector('#startDateInput')
 const destinationsDropDown = document.querySelector('#dropDownMenuDestinations')
 const numberOfTravelersInput = document.querySelector('#numberOfTravelersInput')
 const tripDurationInput = document.querySelector('#tripDurationInput')
 const submitButton = document.querySelector('.enter-button')
 const form = document.querySelector('.info')
-
-const presentTripsBox = document.querySelector('.present-trips-box')
-const pastTripsBox = document.querySelector('.past-trips-box')
-const upcomingTripsBox = document.querySelector('.upcoming-trips-box')
-const pendingTripsBox = document.querySelector('.pending-trips-box')
 const pendingTripText = document.querySelector('.destination-name-pending')
 
 
@@ -69,19 +69,18 @@ const parseAllData = (data) => {
   
   allData = new DataRepo(dataRepo)
 
-  //currentUserID = getRandomTraveler(allData.travelers)
   currentUserID = 3
   getUserByID(currentUserID)
-  console.log(currentTraveler)
 
   parseMethods()
   populateDestinationsDropDown(allData.destinations)
+  displayTravelerName(currentTraveler.name)
 }
 
 const getUserByID = (currentUserID) => {
   currentTraveler = allData.travelers.find(traveler => currentUserID === traveler.id)
   
-  displayTravelerName(currentTraveler.name)
+  //displayTravelerName(currentTraveler.name)
 }
 
 const parseMethods = () => {
@@ -89,45 +88,27 @@ const parseMethods = () => {
   allData.travelersTrips = travelerTrips
   allData.sortTrips()
   displayTravelerName(currentTraveler.name)
-
-  //currentTraveler.approvedTrips = allData.thisYearsApproved.map(trip => new Trip(trip))
-  //allData.sortTrips()
-
-  //currentTraveler.pendingTrips = allData.thisYearsPending.map(trip => new Trip(trip))
-  //allData.sortTrips(pendingTrips)
-
-  //currentTraveler.pastTrips = allData.previousYearsTrip.map(trip => new Trip(trip))
-  //allData.sortTrips(pastTrips)
-  //console.log(currentTraveler.pastTrips)
+  displayPastTrips()
+  displayAnnualCost()
 }
 
 
-// const getRandomTraveler = (array) => {
-//   randomIndex = Math.floor(Math.random() * array.length)
-//   currentTraveler = allData.getNewTraveler(randomIndex)
-//   //console.log(currentTraveler)
-//   displayTravelerName(currentTraveler.name)
+
+// const displayTravelerName = (traveler) => {
+//   welcomeName.innerText = `Welcome, ${traveler}`
+//   displayAnnualCost()
+//   displayUpcomingTrips()
+//   displayPendingTrips()
+//   displayPastTrips(currentTraveler.trips)
 // }
 
-const displayTravelerName = (traveler) => {
-  welcomeName.innerText = `Welcome, ${traveler}`
-  //displayCurrentTrips(currentTraveler.trips)
-  displayAnnualCost()
-  displayUpcomingTrips()
-  displayPendingTrips()
-  displayPastTrips(currentTraveler.trips)
-}
-
-
-// const displayCurrentTrips = () => { 
-//   let newTrip
-//   //console.log(currentTraveler)
-//   //console.log(allData.travelersTrips)
-//   allData.thisYearsTrip.forEach(trip => {
+// const displayPastTrips = () => { 
+//   let newTrip;
+//   allData.previousYearsTrip.forEach(trip => {
 //     newTrip = trip
 //     let dest = allData.getDestinationName(trip.destinationID)
-//     //console.log(dest)
-//     presentTripsBox.innerHTML += `
+
+//     pastTripsBox.innerHTML += `
 //     <p class="destination-name">${dest.destination}</p>
 //     <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
 //     <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
@@ -139,84 +120,58 @@ const displayTravelerName = (traveler) => {
 //   })
 // }
 
-const displayPastTrips = () => { 
-let newTrip;
-  //console.log(allData.previousYearsTrip)
-  allData.previousYearsTrip.forEach(trip => {
-    newTrip = trip
-    let dest = allData.getDestinationName(trip.destinationID)
-    //let past = allData.sortTrips(dest)
-    //console.log(past)
-    pastTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
-  })
-}
+// const displayUpcomingTrips = () => { 
+//   let newTrip
+//   allData.thisYearsTrip.forEach(trip => {
+//     newTrip = trip
+//     let dest = allData.getDestinationName(trip.destinationID)
 
-const displayUpcomingTrips = () => { 
-  let newTrip
-  allData.thisYearsTrip.forEach(trip => {
-    newTrip = trip
-    let dest = allData.getDestinationName(trip.destinationID)
-    //let past = allData.sortTrips(dest)
-    //console.log(past)
-    upcomingTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
-  })
-}
+//     upcomingTripsBox.innerHTML += `
+//     <p class="destination-name">${dest.destination}</p>
+//     <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
+//     <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
+//     <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
+//     <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
+//     <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
+//     <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
+//     `
+//   })
+// }
 
-const displayPendingTrips = () => { 
-  allData.thisYearsPending.forEach(trip => {
-    let dest = allData.getDestinationName(trip.destinationID)
-    let cost = allData.calculateTripCost(trip)
-    console.log(cost)
+// const displayPendingTrips = () => { 
+//   allData.thisYearsPending.forEach(trip => {
+//     let dest = allData.getDestinationName(trip.destinationID)
+//     let cost = allData.calculateTripCost(trip)
 
-    //let past = allData.sortTrips(dest)
-    //console.log(past)
-    pendingTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="total-estimated-cost">Total Estimated Cost: $${cost}</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
-  })
-}
+//     pendingTripsBox.innerHTML += `
+//     <p class="destination-name">${dest.destination}</p>
+//     <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
+//     <p class="trip-date">Trip Date: ${dayjs(trip.date).format('M/D/YYYY')}</p>
+//     <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
+//     <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
+//     <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
+//     <p class="total-estimated-cost">Total Estimated Cost: $${cost}</p>
+//     <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
+//     `
+//   })
+// }
 
-const populateDestinationsDropDown = (destinations) => {
-  allData.destinations.forEach(destination => {
-    destinationsDropDown.innerHTML += `<option value="${destination.id}">${destination.destination}</option>`
-  })  
-}
+// const populateDestinationsDropDown = (destinations) => {
+//   allData.destinations.forEach(destination => {
+//     destinationsDropDown.innerHTML += `<option value="${destination.id}">${destination.destination}</option>`
+//   })  
+// }
 
-const displayAnnualCost = () => {
-  const annual = allData.getAnnualTripsCost(currentTraveler.id)
-  annualCost.innerHTML = `
-  <h2 id="spentText">You've spent $${annual} on trips this year</h2>
-  `
-}
+// const displayAnnualCost = () => {
+//   const annual = allData.getAnnualTripsCost(currentTraveler.id)
+//   annualCost.innerHTML = `
+//   <h2 id="spentText">You've spent $${annual} on trips this year</h2>
+//   `
+// }
 
 const createNewTrip = (event) => {
-  console.log("HEY")
   event.preventDefault()
-  //console.log(D)
-  //let formData = new FormData(event.target)
+
   let newTrip = {
     id: Date.now(),
     userID: parseInt(currentTraveler.id),
@@ -228,7 +183,6 @@ const createNewTrip = (event) => {
     suggestedActivities: []
 
   }
-  console.log(newTrip)
   allData.thisYearsPending.push(newTrip)
 
   postNewTrip(newTrip)
@@ -237,7 +191,16 @@ const createNewTrip = (event) => {
   .catch(error => console.log(error))
 
   form.reset()
+  //getAnnualCost()
 }
+
+
+// const getAnnualCost = () => {
+//   let annual = allData.getAnnualTripsCost(currentTraveler.id)
+//   displayAnnualCost(annual)
+// }
+
+
 
 
 //------EVENT LISTENERS------
@@ -245,3 +208,16 @@ window.addEventListener('load', fetchAllData)
 submitButton.addEventListener('click', event => {
   createNewTrip(event)
 })
+
+
+export {
+  travelers,
+  trips,
+  destinations,
+  allData,
+  currentUserID,
+  currentTraveler,
+  approvedTrips,
+  pendingTrips,
+  pastTrips
+}
