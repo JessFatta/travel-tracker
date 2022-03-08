@@ -35,25 +35,7 @@ class DataRepo {
         this.travelersTrips.push(trip)
       }
     })
-
   }
-  
-  // getCurrentTrips(year) {
-  //   this.travelerTrips.forEach(trip => {
-      
-  //     if(dayjs(trip.date).year() === 2022) {
-  //     this.currentTrips.push(trip)
-  //     }
-  //   })
-  // }
-
-  // getPendingTrips() {
-  //   this.trips.forEach(trip => {
-  //     if(trip.status === 'pending' && trip.userID === userID) {
-  //       this.pendingTrips.push(trip)
-  //     }
-  //   })
-  // }
 
   getDestinationName(destinationID) {
     const destName = this.destinations.find(destination => {
@@ -63,9 +45,9 @@ class DataRepo {
     return destName
   }
 
-  sortTrips(trips) {
-    const sorted = this.travelersTrips.forEach(trip => {
-      let dest = this.getDestinationName(trip.destinationID)
+  sortTrips() {
+    this.travelersTrips.forEach(trip => {
+    this.getDestinationName(trip.destinationID)
     if(dayjs(trip.date).year() === 2022) {
       this.thisYearsTrip.push(trip)
       if(trip.status === 'approved') {
@@ -77,7 +59,9 @@ class DataRepo {
     this.previousYearsTrip.push(trip)
     }
   })
-  return sorted
+  console.log(this.previousYearsTrip)
+  console.log(this.thisYearsTrip)
+  console.log(this.thisYearsPending)
   }
 
   getAnnualTripsCost(userID) {
@@ -91,7 +75,16 @@ class DataRepo {
     }, 0) * 1.1
     return findPrice.toFixed(2)
   }
-  
+
+  calculateTripCost(trip) {
+    //console.log(this.destinations)
+    let currentDest = this.destinations.find(dest => dest.id === trip.destinationID)
+    console.log(currentDest)
+    let totalCosts = (trip.duration * currentDest.estimatedLodgingCostPerDay) + (trip.travelers * currentDest.estimatedFlightCostPerPerson)
+    let totalWithAgent = totalCosts + (totalCosts * 1.1)
+    console.log(totalWithAgent)
+    return totalWithAgent.toFixed(2)
+  }
 }
 
 
