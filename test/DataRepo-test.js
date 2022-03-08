@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-
+import dayjs from 'dayjs'
 import Traveler from '../src/Traveler'
 import Trip from '../src/Trip'
 import Destination from '../src/Destination'
@@ -50,17 +50,19 @@ describe('DataRepo', () => {
   })
 
   it('should have a method to return the traveler', () => {
-    expect(dataRepo.getNewTraveler(travelerData)).to.equal()
+    expect(dataRepo.getNewTraveler(1)).to.equal()
   })
 
   it('should have a method to store a list of trips for a traveler', () => {
-    expect(dataRepo.getTravelerTrips(3)).to.deep.equal
+    dataRepo.getTravelerTrips(3)
+
+    expect(dataRepo.travelersTrips).to.deep.equal
     ([{
       id: 3,
       userID: 3,
       destinationID: 1,
       travelers: 4,
-      date: "2022/04/22",
+      date: dayjs("2022/04/22"),
       duration: 7,
       status: "approved",
       suggestedActivities: []
@@ -70,23 +72,34 @@ describe('DataRepo', () => {
       userID: 3,
       destinationID: 2,
       travelers: 4,
-      date: "2022/05/22",
+      date: dayjs("2021/05/22"),
       duration: 17,
       status: "approved",
       suggestedActivities: []
     }])
   })
 
-  it('should have a method to determine current date', () => {
-    expect(dataRepo.getCurrentDate(tripData)).to.equal()
+  it('should have a method to determine current trips', () => {
+    dataRepo.getTravelerTrips(3)
+    dataRepo.getCurrentTrips(2022)
+    expect(dataRepo.currentTrips).to.deep.equal([    {
+      id: 3,
+      userID: 3,
+      destinationID: 1,
+      travelers: 4,
+      date: "2022/04/22",
+      duration: 7,
+      status: "approved",
+      suggestedActivities: []
+    }])
   })
 
-  it('should have a method to determine past trips', () => {
-    expect(dataRepo.getPastTrips(tripData)).to.equal()
+  it('should have a method to sort trips', () => {
+    expect(dataRepo.sortTrips(3)).to.equal()
   })
 
-  // it('should calculate annual trips cost for a user', () => {
-  //   console.log(tripsTestData[2])
-  //   expect(dataRepo.getAnnualTripsCost(tripsTestData[2]).id).to.equal()
-  // })
+  it('should calculate annual trips cost for a user', () => {
+    console.log(tripsTestData[2])
+    expect(dataRepo.getAnnualTripsCost(tripsTestData[2]).id).to.equal()
+  })
 })
