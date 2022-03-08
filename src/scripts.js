@@ -2,7 +2,6 @@
 import './css/styles.css';
 import './images/airplane.png';
 
-import datepicker from 'js-datepicker';
 import dayjs from 'dayjs';
 
 import Traveler from './Traveler'
@@ -13,15 +12,14 @@ import DataRepo from './DataRepo';
 import {
   fetchTravelerData, 
   fetchDestinationData, 
-  fetchTripData
+  fetchTripData, 
+  postNewTrip, 
+  errorHandling
 } from './apiCalls'
-//import { all } from 'core-js/fn/promise';
-
 
 
 //------GLOBALS
 //let dayjs;
-//let datePicker;
 let travelers;
 let trips;
 let destinations;
@@ -31,56 +29,24 @@ let dataRepo
 let currentUserID
 let currentTraveler;
 
-// let allTravelers;
-// let allTrips;
-// let allDestinations;
-
 
 //------QUERY SELECTORS
-const calendar = document.querySelector('#calendar')
 const welcomeName = document.querySelector('#welcomeName')
 const annualCost = document.querySelector('#spentText')
+const calendar = document.querySelector('#startDateInput')
+const destinationsDropDown = document.querySelector('#dropDownMenuDestinations')
+const numberOfTravelersInput = document.querySelector('#numberOfTravelersInput')
+const tripDurationInput = document.querySelector('#tripDurationInput')
+const submitButton = document.querySelector('.enter-button')
+const form = document.querySelector('.info')
+
+
 const presentTripsBox = document.querySelector('.present-trips-box')
 const pastTripsBox = document.querySelector('.past-trips-box')
 const upcomingTripsBox = document.querySelector('.upcoming-trips-box')
 const pendingTripsBox = document.querySelector('.pending-trips-box')
-const destinationsDropDown = document.querySelector('#dropDownMenuDestinations')
+const pendingTripText = document.querySelector('.destination-name')
 
-
-const datePicker = datepicker('#calendar', {
-  onSelect: (instance, date) => {
-  ///put functions here - remember to do a .destroy() after each one to 
-  // make sure it shows new data on a new calendar date? maybe?
-  },
-  startDate: new Date(2022, 2, 6),
-  minDate: new Date(2022, 2, 7),
-  maxDate: new Date(2022, 11, 19)
-})
-// const datePickerEnd = datepicker('#calendar', {
-//   onSelect: (instance, date) => {
-//   ///put functions here - remember to do a .destroy() after each one to 
-//   // make sure it shows new data on a new calendar date? maybe?
-//   },
-//   endDate: new Date(2022, 2, 6),
-//   minDate: new Date(2022, 2, 7),
-//   maxDate: new Date(2022, 11, 19)
-// })
-
-
-//const datePicker = datePicker('.start', {id: 1})
-//const datePickerEnd = datePickerEnd('.end', {id: 1})
-
-// datePicker.getRange()
-// datePickerEnd.getRange()
-// const datePickerEnd = datepicker('#calendar', {
-//   onSelect: (instance, date) => {
-//   ///put functions here - remember to do a .destroy() after each one to 
-//   // make sure it shows new data on a new calendar date? maybe?
-//   },
-//   EndDate: new Date(2022, 2, 6),
-//   minDate: new Date(2022, 2, 7),
-//   maxDate: new Date(2022, 11, 19)
-// })
 
 //------FUNCTIONS
 const fetchAllData = () => {
@@ -122,7 +88,7 @@ const parseMethods = () => {
 const getRandomTraveler = (array) => {
   randomIndex = Math.floor(Math.random() * array.length)
   currentTraveler = allData.getNewTraveler(randomIndex)
-  console.log(currentTraveler)
+  //console.log(currentTraveler)
   displayTravelerName(currentTraveler.name)
 }
 
@@ -154,7 +120,7 @@ const displayCurrentTrips = () => {
 }
 
 const displayPastTrips = () => { 
-  console.log(allData.previousYearsTrip)
+  //console.log(allData.previousYearsTrip)
   allData.previousYearsTrip.forEach(trip => {
     let dest = allData.getDestinationName(trip.destinationID)
     //let past = allData.sortTrips(dest)
@@ -210,7 +176,7 @@ const displayPendingTrips = () => {
 
 const populateDestinationsDropDown = (destinations) => {
   allData.destinations.forEach(destination => {
-    destinationsDropDown.innerHTML += `<option value="${destination.destination}">${destination.destination}</option>`
+    destinationsDropDown.innerHTML += `<option value="${destination.id}">${destination.destination}</option>`
   })  
 }
 
@@ -223,6 +189,36 @@ const displayAnnualCost = () => {
 }
 
 
+const createNewTrip = (event) => {
+  console.log("HEY")
+  event.preventDefault()
+  //console.log(D)
+  //let formData = new FormData(event.target)
+  let newTrip = {
+    id: Date.now(),
+    userID: parseInt(currentTraveler.id),
+    destinationID: parseInt(destinationsDropDown.value),
+    travelers: parseInt(numberOfTravelersInput.value),
+    date: dayjs(calendar.value).format('YYYY/MM/DD'), 
+    duration: parseInt(tripDurationInput.value),
+    status: 'pending',
+    suggestedActivities: []
+
+  }
+  console.log(newTrip)
+  allData.thisYearsPending.push(newTrip)
+
+  postNewTrip(newTrip)
+  .then(data => {pendingTripText.innerText += `${data.message}`
+  fetchAllData()})
+  .catch(error => console.log(error))
+
+  form.reset()
+}
+
+
 //------EVENT LISTENERS
 window.addEventListener('load', fetchAllData)
-
+submitButton.addEventListener('click', event => {
+  createNewTrip(event)
+})
