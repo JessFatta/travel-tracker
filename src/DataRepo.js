@@ -13,7 +13,7 @@ class DataRepo {
     this.destinations = data.destinations;
     this.travelersTrips = [];
     this.thisYearsTrip = [];
-    this.thisYearsApproved = [];
+    //this.thisYearsApproved = [];
     this.previousYearsTrip = [];
     this.thisYearsPending = [];
   }
@@ -21,6 +21,7 @@ class DataRepo {
   getNewTraveler(id) {
     let currentTraveler = this.travelers.find(traveler => traveler.id === id)
     this.getTravelerTrips(id)
+    console.log(currentTraveler)
     return currentTraveler
   }
 
@@ -39,21 +40,52 @@ class DataRepo {
     return destName
   }
 
+  // sortTrips() {
+  //   this.travelersTrips.forEach(trip => {
+  //   this.getDestinationName(trip.destinationID)
+  //   if(dayjs(trip.date).year() === 2022) {
+  //     this.thisYearsTrip.push(trip)
+  //     if(trip.status === 'approved') {
+  //       this.thisYearsTrip.push(trip)
+  //     } else {
+  //     this.thisYearsPending.push(trip)
+  //     } 
+  //   } else {
+  //   this.previousYearsTrip.push(trip)
+  //   }
+  // })
+  // }
+
+
+
+//   sortTrips() {
+//     this.travelersTrips.forEach(trip => {
+//     this.getDestinationName(trip.destinationID)
+//     if(dayjs(trip.date).year() === 2022) {
+//       this.thisYearsTrip.push(trip)
+//       if(trip.status === 'pending') {
+//         this.thisYearsPending.push(trip)
+//       }
+//     } else {
+//     this.previousYearsTrip.push(trip)
+//     }
+//   })
+// }
+
   sortTrips() {
     this.travelersTrips.forEach(trip => {
     this.getDestinationName(trip.destinationID)
-    if(dayjs(trip.date).year() === 2022) {
+    if(dayjs(trip.date).year() === 2022 && !this.thisYearsTrip.includes(trip)) {
       this.thisYearsTrip.push(trip)
-      if(trip.status === 'approved') {
-        this.thisYearsTrip.push(trip)
-      } else {
+      if(trip.status === 'pending' && !this.thisYearsPending.includes(trip)) {
       this.thisYearsPending.push(trip)
-      } 
-    } else {
-    this.previousYearsTrip.push(trip)
+      }
+    } else if (dayjs(trip.date).year() < 2022 && !this.previousYearsTrip.includes(trip)) {
+      this.previousYearsTrip.push(trip)
     }
   })
-  }
+}
+
 
   getAnnualTripsCost(userID) {
     const userTrips = this.travelersTrips.filter((trip) => {
