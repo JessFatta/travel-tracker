@@ -49,13 +49,8 @@ describe('DataRepo', () => {
     expect(dataRepo.destinations).to.deep.equal(destinationData)
   })
 
-  it('should have a method to return the traveler', () => {
-    expect(dataRepo.getNewTraveler(1)).to.equal()
-  })
-
   it('should have a method to store a list of trips for a traveler', () => {
     dataRepo.getTravelerTrips(3)
-
     expect(dataRepo.travelersTrips).to.deep.equal
     ([{
       id: 3,
@@ -79,27 +74,11 @@ describe('DataRepo', () => {
     }])
   })
 
-  it('should have a method to determine current trips', () => {
-    dataRepo.getTravelerTrips(3)
-    dataRepo.getCurrentTrips(2022)
-    expect(dataRepo.currentTrips).to.deep.equal([    {
-      id: 3,
-      userID: 3,
-      destinationID: 1,
-      travelers: 4,
-      date: "2022/04/22",
-      duration: 7,
-      status: "approved",
-      suggestedActivities: []
-    }])
-  })
-
   it('should have a method to sort trips', () => {
     expect(dataRepo.sortTrips(3)).to.equal()
   })
 
   it('should calculate annual trips cost for a user', () => {
-    console.log(tripsTestData[2])
-    expect(dataRepo.getAnnualTripsCost(tripsTestData[2]).id).to.equal()
+    expect(dataRepo.getAnnualTripsCost(1).id).to.equal()
   })
 })
