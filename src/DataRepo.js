@@ -58,33 +58,33 @@ class DataRepo {
 
 
 
-//   sortTrips() {
-//     this.travelersTrips.forEach(trip => {
-//     this.getDestinationName(trip.destinationID)
-//     if(dayjs(trip.date).year() === 2022) {
-//       this.thisYearsTrip.push(trip)
-//       if(trip.status === 'pending') {
-//         this.thisYearsPending.push(trip)
-//       }
-//     } else {
-//     this.previousYearsTrip.push(trip)
-//     }
-//   })
-// }
-
   sortTrips() {
     this.travelersTrips.forEach(trip => {
     this.getDestinationName(trip.destinationID)
-    if(dayjs(trip.date).year() === 2022 && !this.thisYearsTrip.includes(trip)) {
+    if(dayjs(trip.date).year() === 2022) {
       this.thisYearsTrip.push(trip)
-      if(trip.status === 'pending' && !this.thisYearsPending.includes(trip)) {
-      this.thisYearsPending.push(trip)
+      if(trip.status === 'pending') {
+        this.thisYearsPending.push(trip)
       }
-    } else if (dayjs(trip.date).year() < 2022 && !this.previousYearsTrip.includes(trip)) {
-      this.previousYearsTrip.push(trip)
+    } else {
+    this.previousYearsTrip.push(trip)
     }
   })
 }
+
+//   sortTrips() {
+//     this.travelersTrips.forEach(trip => {
+//     this.getDestinationName(trip.destinationID)
+//     if(dayjs(trip.date).year() === 2022 && !this.thisYearsTrip.includes(trip)) {
+//       this.thisYearsTrip.push(trip)
+//       if(trip.status === 'pending' && !this.thisYearsPending.includes(trip)) {
+//       this.thisYearsPending.push(trip)
+//       }
+//     } else if (dayjs(trip.date).year() < 2022 && !this.previousYearsTrip.includes(trip)) {
+//       this.previousYearsTrip.push(trip)
+//     }
+//   })
+// }
 
 
   getAnnualTripsCost(userID) {
