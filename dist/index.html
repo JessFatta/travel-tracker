@@ -18,8 +18,8 @@
         <h2 id="spentText">You've spent $$$ on trips this year</h2>
       </div>
     </nav>
-    <nav class="info">
-      <h1>Book A Trip</h1>
+    <form class="info">
+      <h1 class="book-trip-text">Book A Trip</h1>
       <div class="destination-wrapper">
         <label for="destination-selector">Select your Destination</label>
         <select class="destination-drop-down" name="dropDown" id="dropDownMenuDestinations" required>
@@ -29,18 +29,22 @@
       </div>
       <div class="num-travelers-wrapper">
         <label for="number-travelers">Travelers</label>
-        <input class="number-travelers-input" id="numberOfTravelersInput" type="number" min="1" placeholder="Number of Travelers" required />
+        <input class="number-travelers-input" id="numberOfTravelersInput" name="travelers" type="number" min="1" placeholder="Number of Travelers" required />
       </div>
       <div class="calendar-wrapper">
-        <label for="calendar">Select your dates</label>
-        <input class="calendar" id="calendar" name="calendar" value="Fri Mar 6 2022"></input>
+        <label for="calendar">Select your date</label>
+        <input class="date-input" id="startDateInput" type="date" name="date" required></input>
+      </div>
+      <div class="duration-wrapper">
+        <label for="trip-duration">Duration</label>
+        <input class="trip-duration-input" id="tripDurationInput" type="number" name="duration" min="1" placeholder="Duration" required />
       </div>
       <div class="enter-button-wrapper">
         <button class="enter-button">
           Let's go!
         </button>
       </div>
-    </nav>
+    </form>
   </div>
 <main>
   <div class="box-wrapper">
@@ -76,7 +80,7 @@
     </section>
     <section class="pending-trips-box scrollable">
       <h2 class="trips-text">Pending Trips</h2>
-      <p class="destination-name">You have no pending trips. Book now!</p>
+      <p class="destination-name"></p>
       <img class="destination-image" src="" alt=""/>
       <p class="destination-date"></p>
       <p class="destination-lodging-cost"></p>
