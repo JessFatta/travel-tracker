@@ -54,18 +54,22 @@ const pastTripsBox = document.querySelector('.past-trips-box')
 const upcomingTripsBox = document.querySelector('.upcoming-trips-box')
 const pendingTripsBox = document.querySelector('.pending-trips-box')
 
-
+const userNameField = document.querySelector('#userNameField')
+const passWordField = document.querySelector('#passWordField')
+const logInSubmit = document.querySelector('#logInSubmit')
+const logInPage = document.querySelector('#logInPage')
+const mainPage = document.querySelector('#mainPage')
 
 //------FUNCTIONS------
-const fetchAllData = () => {
+const fetchAllData = (username) => {
   Promise.all([
     fetchTravelerData(),
     fetchDestinationData(),
     fetchTripData()
-  ]).then((data) => parseAllData(data))
+  ]).then((data) => parseAllData(data, username))
 }
 
-const parseAllData = (data) => {
+const parseAllData = (data, username) => {
   const dataRepo = {}
 
   dataRepo.travelers = data[0].travelers.map(traveler => new Traveler(traveler))
@@ -73,8 +77,9 @@ const parseAllData = (data) => {
   dataRepo.destinations = data[1].destinations.map(destination => new Destination(destination))
   
   allData = new DataRepo(dataRepo)
-
-  currentUserID = 3
+  console.log(allData)
+  
+  currentUserID = username
   getUserByID(currentUserID)
 
   parseMethods()
@@ -124,9 +129,33 @@ const createNewTrip = (event) => {
   form.reset()
 }
 
+const logIn = (event) => {
+  event.preventDefault()
+  const userName = parseInt(userNameField.value.charAt(8) + userNameField.value.charAt(9))
+  console.log(userName)
+  if(userNameField.value === `traveler${userName}` && passWordField.value === 'travel') {
+    addHidden(logInPage)
+    removeHidden(mainPage)
+    fetchAllData(userName)
+  } 
+  return userName
+}
+
+const addHidden = (element) => {
+  element.classList.add('hidden')
+}
+
+const removeHidden = (element) => {
+  element.classList.remove('hidden')
+}
+
+
 
 //------EVENT LISTENERS------
-window.addEventListener('load', fetchAllData)
+//window.addEventListener('load', fetchAllData)
+logInSubmit.addEventListener('click', event => {
+  logIn(event)
+})
 submitButton.addEventListener('click', event => {
   createNewTrip(event)
 })
