@@ -38,14 +38,13 @@ h1 {
   font-size: 3vw;
 }
 
-
 nav, section {
   border-radius: 3px;
 }
 
 .nav-wrapper {
   display: flex;
-  height: 20vh;
+  height: 24vh;
   justify-content: space-between;
   margin: 1rem;
 }
@@ -62,6 +61,7 @@ nav, section {
 .welcome-text {
   justify-content: space-around;
 }
+
 
 #travelTrackerText {
   padding-left: 160px;
@@ -90,6 +90,7 @@ nav, section {
   align-items: center;
   width: 62%;
   padding: .5vw;
+  align-items: flex-start;
 }
 
 .welcome-nav, .info, .past-trips-box, .present-trips-box, .upcoming-trips-box, .pending-trips-box {
@@ -102,6 +103,28 @@ nav, section {
   display:flex;
   flex-direction: column;
   justify-content: space-around;
+}
+
+.enter-button {
+  margin-left: 200px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.book-trip-text{
+  margin-left: 120px;
+}
+
+.num-travelers-text{
+  margin-left: 98px;
+}
+
+.select-date-text {
+  margin-left: 49px;
+}
+
+.duration-text {
+  margin-left: 105px;
 }
 
 .box-wrapper {
@@ -119,8 +142,7 @@ nav, section {
 
 .past-trips-box, .present-trips-box, .upcoming-trips-box, .pending-trips-box {
   display: flex;
-  /* justify-content: space-around; */
-  width: 23.5vw;
+  width: 30vw;
   height: 100%;
   border-top: 10px solid rgba(168, 156, 156, 0.945);
   flex-direction: column;
@@ -143,3 +165,36 @@ nav, section {
   overflow-y: auto;
 }
 
+.log-in-page {
+  display: flex;
+  justify-content: center;
+  /* flex-direction: column; */
+  align-items: center;
+  padding: 250px;
+}
+
+.login-text {
+  font-size: 1.5rem;
+}
+
+.login-form {
+  padding: 80px;
+  background: rgba(168, 156, 156, 0.945);
+  border: 2px solid #2064a7ee;
+  box-shadow: 2.0px 6.0px 6.0px hsl(0deg 0% 0% / 0.10);
+  /* padding-left: 50px; */
+}
+
+.input-text-wrapper {
+  padding-left: 90px;
+  padding-top: 10px;
+}
+
+/* .username-field, .password-field {
+  flex-direction: column;
+  margin-left: 40px;
+} */
+
+.hidden{
+  display: none;
+}

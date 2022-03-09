@@ -11,21 +11,17 @@ class DataRepo {
     this.travelers = data.travelers;
     this.trips = data.trips;
     this.destinations = data.destinations;
-    //this.pastTrips = [];
     this.travelersTrips = [];
-    //this.currentTrips = [];
-    //this.pendingTrips = [];
     this.thisYearsTrip = [];
-    this.thisYearsApproved = [];
+    //this.thisYearsApproved = [];
     this.previousYearsTrip = [];
     this.thisYearsPending = [];
-
-    //this.currentTraveler;
   }
 
   getNewTraveler(id) {
     let currentTraveler = this.travelers.find(traveler => traveler.id === id)
     this.getTravelerTrips(id)
+    console.log(currentTraveler)
     return currentTraveler
   }
 
@@ -35,50 +31,61 @@ class DataRepo {
         this.travelersTrips.push(trip)
       }
     })
-
   }
-  
-  // getCurrentTrips(year) {
-  //   this.travelerTrips.forEach(trip => {
-      
-  //     if(dayjs(trip.date).year() === 2022) {
-  //     this.currentTrips.push(trip)
-  //     }
-  //   })
-  // }
-
-  // getPendingTrips() {
-  //   this.trips.forEach(trip => {
-  //     if(trip.status === 'pending' && trip.userID === userID) {
-  //       this.pendingTrips.push(trip)
-  //     }
-  //   })
-  // }
 
   getDestinationName(destinationID) {
     const destName = this.destinations.find(destination => {
       return destination.id === destinationID
     })
-    console.log(destName.destination)
     return destName
   }
 
-  sortTrips(trips) {
-    const sorted = this.travelersTrips.forEach(trip => {
-      let dest = this.getDestinationName(trip.destinationID)
+  // sortTrips() {
+  //   this.travelersTrips.forEach(trip => {
+  //   this.getDestinationName(trip.destinationID)
+  //   if(dayjs(trip.date).year() === 2022) {
+  //     this.thisYearsTrip.push(trip)
+  //     if(trip.status === 'approved') {
+  //       this.thisYearsTrip.push(trip)
+  //     } else {
+  //     this.thisYearsPending.push(trip)
+  //     } 
+  //   } else {
+  //   this.previousYearsTrip.push(trip)
+  //   }
+  // })
+  // }
+
+
+
+  sortTrips() {
+    this.travelersTrips.forEach(trip => {
+    this.getDestinationName(trip.destinationID)
     if(dayjs(trip.date).year() === 2022) {
       this.thisYearsTrip.push(trip)
-      if(trip.status === 'approved') {
-        this.thisYearsTrip.push(trip)
-      } else {
-      this.thisYearsPending.push(trip)
-      } 
+      if(trip.status === 'pending') {
+        this.thisYearsPending.push(trip)
+      }
     } else {
     this.previousYearsTrip.push(trip)
     }
   })
-  return sorted
-  }
+}
+
+//   sortTrips() {
+//     this.travelersTrips.forEach(trip => {
+//     this.getDestinationName(trip.destinationID)
+//     if(dayjs(trip.date).year() === 2022 && !this.thisYearsTrip.includes(trip)) {
+//       this.thisYearsTrip.push(trip)
+//       if(trip.status === 'pending' && !this.thisYearsPending.includes(trip)) {
+//       this.thisYearsPending.push(trip)
+//       }
+//     } else if (dayjs(trip.date).year() < 2022 && !this.previousYearsTrip.includes(trip)) {
+//       this.previousYearsTrip.push(trip)
+//     }
+//   })
+// }
+
 
   getAnnualTripsCost(userID) {
     const userTrips = this.travelersTrips.filter((trip) => {
@@ -91,7 +98,13 @@ class DataRepo {
     }, 0) * 1.1
     return findPrice.toFixed(2)
   }
-  
+
+  calculateTripCost(trip) {
+    let currentDest = this.destinations.find(dest => dest.id === trip.destinationID)
+    let totalCosts = (trip.duration * currentDest.estimatedLodgingCostPerDay) + (trip.travelers * currentDest.estimatedFlightCostPerPerson)
+    let totalWithAgent = totalCosts + (totalCosts * 1.1)
+    return totalWithAgent.toFixed(2)
+  }
 }
 
 

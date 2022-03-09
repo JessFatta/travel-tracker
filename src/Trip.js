@@ -24,22 +24,6 @@ class Trip {
     })
     return destination
   }
-
-
-  calculateTripCost(destinationTestData) {
-    let tripCost = 0;
-    let agentCharge = .1;
-    destinationTestData.forEach(destination => {
-      if(this.destinationID === destination.id) {
-        const flightsCost = destination.estimatedFlightCostPerPerson * this.travelers
-        const lodgingCost = destination.estimatedLodgingCostPerDay * this.duration * this.travelers
-        tripCost += flightsCost * 2
-        tripCost += lodgingCost
-      }
-    })
-    let totalWithFee = tripCost * agentCharge 
-    return totalWithFee + tripCost
-  }
 }
 
 export default Trip 

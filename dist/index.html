@@ -7,6 +7,17 @@
   <title>Travel Tracker</title>
 </head>
 <body>
+<section class="log-in-page" id="logInPage">
+  <form class="login-form">
+    <h1 class= login-text">Welcome! Please sign in</h1>
+    <div class="input-text-wrapper">
+      <input class="username-field" id="userNameField" type="text" name="username-field" placeholder="enter your username" required>
+      <input class="password-field" id="passWordField" type="text" name="password-field" placeholder="enter your password" required>
+      <button class="login-submit" id="logInSubmit" value="Login">Let's go!</button>
+    </div>
+  </form>
+</section>
+<section class="main-page hidden" id="mainPage">
   <div class="nav-wrapper">
     <nav class="top-nav">
       <div class="airplane-logo">
@@ -18,29 +29,33 @@
         <h2 id="spentText">You've spent $$$ on trips this year</h2>
       </div>
     </nav>
-    <nav class="info">
-      <h1>Book A Trip</h1>
-      <div class="destination-wrapper">
-        <label for="destination-selector">Select your Destination</label>
+    <form for="input-fields" class="info">
+      <h1 class="book-trip-text">Book A Trip</h1>
+      <section class="destination-wrapper">
+        <label for="dropDownMenuDestinations">Select your Destination</label>
         <select class="destination-drop-down" name="dropDown" id="dropDownMenuDestinations" required>
           <option value="Destinations"></option>
           <option value="" disabled selected>Destinations</option>
         </select>
-      </div>
-      <div class="num-travelers-wrapper">
-        <label for="number-travelers">Travelers</label>
-        <input class="number-travelers-input" id="numberOfTravelersInput" type="number" min="1" placeholder="Number of Travelers" required />
-      </div>
-      <div class="calendar-wrapper">
-        <label for="calendar">Select your date</label>
-        <input class="calendar" id="calendar" name="calendar" value="Fri Mar 4 2022"></input>
-      </div>
-      <div class="enter-button-wrapper">
+      </section>
+      <section class="num-travelers-wrapper">
+        <label for="numberOfTravelersInput" class="num-travelers-text">Travelers</label>
+        <input class="number-travelers-input" id="numberOfTravelersInput" name="travelers" type="number" min="1" placeholder="Number of Travelers" required />
+      </section>
+      <section class="calendar-wrapper">
+        <label for="startDateInput" type="date" class="select-date-text">Select your date</label>
+        <input class="date-input" id="startDateInput" type="date" name="date" required></input>
+      </section>
+      <section class="duration-wrapper">
+        <label for="tripDurationInput" class="duration-text">Duration</label>
+        <input class="trip-duration-input" id="tripDurationInput" type="number" name="duration" min="1" placeholder="Duration" required />
+      </section>
+      <section class="enter-button-wrapper">
         <button class="enter-button">
           Let's go!
         </button>
-      </div>
-    </nav>
+      </section>
+    </form>
   </div>
 <main>
   <div class="box-wrapper">
@@ -54,19 +69,9 @@
       <p class="trip-duration"></p>
       <p class="trip-status"></p>
     </section>
-    <section class="present-trips-box scrollable">
-      <h2 class="trips-text">Current Trips</h2>
-      <p class="destination-name">You have no current trips. Book now!</p>
-      <img class="destination-image" src="" alt=""/>
-      <p class="destination-date"></p>
-      <p class="destination-lodging-cost"></p>
-      <p class="destination-flight-cost"></p>
-      <p class="trip-duration"></p>
-      <p class="trip-status"></p>
-    </section>
     <section class="upcoming-trips-box scrollable">
-      <h2 class="trips-text">Upcoming Trips</h2>
-      <p class="destination-name">You have no upcoming trips. Book now!</p>
+      <h2 class="trips-text">Trips in 2022</h2>
+      <p class="destination-name"></p>
       <img class="destination-image" src="" alt=""/>
       <p class="destination-date"></p>
       <p class="destination-lodging-cost"></p>
@@ -76,19 +81,20 @@
     </section>
     <section class="pending-trips-box scrollable">
       <h2 class="trips-text">Pending Trips</h2>
-      <p class="destination-name">You have no pending trips. Book now!</p>
+      <p class="destination-name-pending"></p>
       <img class="destination-image" src="" alt=""/>
       <p class="destination-date"></p>
       <p class="destination-lodging-cost"></p>
       <p class="destination-flight-cost"></p>
       <p class="trip-duration"></p>
+      <p class="total-estimated-cost"></p>
       <p class="trip-status"></p>
     </section>
   </div>
 </main>
+</section>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
-
 </body>
 </html>

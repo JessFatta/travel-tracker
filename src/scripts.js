@@ -1,8 +1,7 @@
-//------IMPORTS
+//------IMPORTS------
 import './css/styles.css';
 import './images/airplane.png';
 
-import datepicker from 'js-datepicker';
 import dayjs from 'dayjs';
 
 import Traveler from './Traveler'
@@ -13,60 +12,64 @@ import DataRepo from './DataRepo';
 import {
   fetchTravelerData, 
   fetchDestinationData, 
-  fetchTripData
+  fetchTripData, 
+  postNewTrip, 
+  errorHandling
 } from './apiCalls'
-//import { all } from 'core-js/fn/promise';
+
+import {
+  displayTravelerName, 
+  displayPastTrips, 
+  displayUpcomingTrips, 
+  displayPendingTrips, 
+  populateDestinationsDropDown, 
+  displayAnnualCost
+} from './domUpdates'
 
 
-
-//------GLOBALS
-//let dayjs;
-let daypicker;
+//------GLOBALS------
 let travelers;
 let trips;
 let destinations;
-let randomIndex;
 let allData = {}
 let dataRepo
 let currentUserID
 let currentTraveler;
+let approvedTrips
+let pendingTrips
+let pastTrips
 
-// let allTravelers;
-// let allTrips;
-// let allDestinations;
 
 
-//------QUERY SELECTORS
-const calendar = document.querySelector('#calendar')
-const welcomeName = document.querySelector('#welcomeName')
-const annualCost = document.querySelector('#spentText')
-const presentTripsBox = document.querySelector('.present-trips-box')
+//------QUERY SELECTORS------
+const calendar = document.querySelector('#startDateInput')
+const destinationsDropDown = document.querySelector('#dropDownMenuDestinations')
+const numberOfTravelersInput = document.querySelector('#numberOfTravelersInput')
+const tripDurationInput = document.querySelector('#tripDurationInput')
+const submitButton = document.querySelector('.enter-button')
+const form = document.querySelector('.info')
+const pendingTripText = document.querySelector('.destination-name-pending')
+
 const pastTripsBox = document.querySelector('.past-trips-box')
 const upcomingTripsBox = document.querySelector('.upcoming-trips-box')
 const pendingTripsBox = document.querySelector('.pending-trips-box')
-const destinationsDropDown = document.querySelector('#dropDownMenuDestinations')
 
-const datePicker = datepicker('#calendar', {
-  onSelect: (instance, date) => {
-  ///put functions here - remember to do a .destroy() after each one to 
-  // make sure it shows new data on a new calendar date? maybe?
-  },
-  startDate: new Date(2022, 2, 4),
-  minDate: new Date(2022, 2, 4),
-  maxDate: new Date(2022, 11, 19)
-})
+const userNameField = document.querySelector('#userNameField')
+const passWordField = document.querySelector('#passWordField')
+const logInSubmit = document.querySelector('#logInSubmit')
+const logInPage = document.querySelector('#logInPage')
+const mainPage = document.querySelector('#mainPage')
 
-
-//------FUNCTIONS
-const fetchAllData = () => {
+//------FUNCTIONS------
+const fetchAllData = (username) => {
   Promise.all([
     fetchTravelerData(),
     fetchDestinationData(),
     fetchTripData()
-  ]).then((data) => parseAllData(data))
+  ]).then((data) => parseAllData(data, username))
 }
 
-const parseAllData = (data) => {
+const parseAllData = (data, username) => {
   const dataRepo = {}
 
   dataRepo.travelers = data[0].travelers.map(traveler => new Traveler(traveler))
@@ -74,126 +77,103 @@ const parseAllData = (data) => {
   dataRepo.destinations = data[1].destinations.map(destination => new Destination(destination))
   
   allData = new DataRepo(dataRepo)
+  //console.log(allData)
+  
+  currentUserID = username
+  getUserByID(currentUserID)
 
-  currentUserID = getRandomTraveler(allData.travelers)
-  populateDestinationsDropDown(allData.destinations)
   parseMethods()
+  populateDestinationsDropDown(allData.destinations)
+  displayTravelerName(currentTraveler.name)
+}
+
+const getUserByID = (currentUserID) => {
+  currentTraveler = allData.travelers.find(traveler => currentUserID === traveler.id)
 }
 
 const parseMethods = () => {
   const travelerTrips = allData.trips.filter(trip => trip.userID === currentTraveler.id)
-  allData.sortTrips(travelerTrips)
+  allData.travelersTrips = travelerTrips
+  allData.sortTrips()
 
-  const approvedTrips = allData.thisYearsApproved.map(trip => new Trip(trip))
-
-  const pendingTrips = allData.thisYearsPending.map(trip => new Trip(trip))
-  displayPastTrips(currentTraveler.trips)
-}
-
-
-const getRandomTraveler = (array) => {
-  randomIndex = Math.floor(Math.random() * array.length)
-  currentTraveler = allData.getNewTraveler(randomIndex)
-  console.log(currentTraveler)
   displayTravelerName(currentTraveler.name)
-}
-
-const displayTravelerName = (traveler) => {
-  welcomeName.innerText = `Welcome, ${traveler}`
-  displayCurrentTrips()
+  displayPastTrips()
   displayAnnualCost()
-  displayUpcomingTrips()
-  displayPendingTrips()
+  console.log("TRAVTR", travelerTrips)
 }
 
+const createNewTrip = (event) => {
+  event.preventDefault()
 
-const displayCurrentTrips = () => { 
-  //console.log(currentTraveler)
-  //console.log(allData.travelersTrips)
-  allData.thisYearsTrip.forEach(trip => {
-    let dest = allData.getDestinationName(trip.destinationID)
-    //console.log(dest)
-    presentTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date:${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
+  let newTrip = {
+    id: Date.now(),
+    userID: parseInt(currentTraveler.id),
+    destinationID: parseInt(destinationsDropDown.value),
+    travelers: parseInt(numberOfTravelersInput.value),
+    date: dayjs(calendar.value).format('YYYY/MM/DD'), 
+    duration: parseInt(tripDurationInput.value),
+    status: 'pending',
+    suggestedActivities: []
+
+  }
+  allData.thisYearsPending.push(newTrip)
+
+  postNewTrip(newTrip)
+
+  .then(data => {pendingTripText.innerText += `${data.message}`
   })
+  .catch(error => console.log(error))
+  
+  upcomingTripsBox.innerHTML = ''
+  pastTripsBox.innerHTML = ''
+  pendingTripsBox.innerHTML = ''
+  form.reset()
+  fetchAllData()
 }
 
-const displayPastTrips = () => { 
-  console.log(allData.previousYearsTrip)
-  allData.previousYearsTrip.forEach(trip => {
-    let dest = allData.getDestinationName(trip.destinationID)
-    //let past = allData.sortTrips(dest)
-    //console.log(past)
-    pastTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date:${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
-  })
+const logIn = (event) => {
+  event.preventDefault()
+  const userName = parseInt(userNameField.value.charAt(8) + userNameField.value.charAt(9))
+  console.log(userName)
+  if(userNameField.value === `traveler${userName}` && passWordField.value === 'travel') {
+    addHidden(logInPage)
+    removeHidden(mainPage)
+    fetchAllData(userName)
+  } 
+  return userName
 }
 
-const displayUpcomingTrips = () => { 
-  allData.thisYearsTrip.forEach(trip => {
-    let dest = allData.getDestinationName(trip.destinationID)
-    //let past = allData.sortTrips(dest)
-    //console.log(past)
-    upcomingTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date:${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
-  })
+const addHidden = (element) => {
+  element.classList.add('hidden')
 }
 
-const displayPendingTrips = () => { 
-  allData.thisYearsPending.forEach(trip => {
-    let dest = allData.getDestinationName(trip.destinationID)
-    //let past = allData.sortTrips(dest)
-    //console.log(past)
-    pendingTripsBox.innerHTML += `
-    <p class="destination-name">${dest.destination}</p>
-    <img class="destination-image" src="${dest.image}" alt="${dest.alt}"/>
-    <p class="trip-date">Trip Date:${dayjs(trip.date).format('M/D/YYYY')}</p>
-    <p class="destination-lodging-cost">Estimated Lodging Cost Per Day: $${dest.estimatedLodgingCostPerDay}</p>
-    <p class="destination-flight-cost">Estimated Flight Cost Per Person: $${dest.estimatedFlightCostPerPerson}</p>
-    <p class="trip-duration">Trip Duration: ${trip.duration} days</p>
-    <p class="trip-status">Trip Status: ${trip.status}</p><br><br>
-    `
-  })
+const removeHidden = (element) => {
+  element.classList.remove('hidden')
 }
 
 
 
+//------EVENT LISTENERS------
+//window.addEventListener('load', fetchAllData)
+logInSubmit.addEventListener('click', event => {
+  logIn(event)
+})
+submitButton.addEventListener('click', event => {
+  createNewTrip(event)
+})
 
-const populateDestinationsDropDown = (destinations) => {
-  allData.destinations.forEach(destination => {
-    destinationsDropDown.innerHTML += `<option value="${destination.destination}">${destination.destination}</option>`
-  })  
+
+
+
+
+export {
+  travelers,
+  trips,
+  destinations,
+  allData,
+  currentUserID,
+  currentTraveler,
+  approvedTrips,
+  pendingTrips,
+  pastTrips
 }
-
-
-const displayAnnualCost = () => {
-  const annual = allData.getAnnualTripsCost(currentTraveler.id)
-  annualCost.innerHTML = `
-  <h2 id="spentText">You've spent $${annual} on trips this year</h2>
-  `
-}
-
-
-//------EVENT LISTENERS
-window.addEventListener('load', fetchAllData)
