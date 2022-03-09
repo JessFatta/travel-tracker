@@ -13,7 +13,7 @@ This app is built using JavaScript, HTML, CSS, and utilizes Test Driven Developm
 - The user can also view the total amount spent on trips in the current year, which is calculated based on flights, accomodations, and a 10% agent fee
 - The user is able to make a request for a new trip, which will display in the 'Pending Trips' box
 - When requesting a new trip, the user will fill out a form that consists of choosing a location, dates, number of travelers, and the duration of the trip
-
+  - After submitting the request, the user will see an estimated cost for the trip
  
 ![Book a Trip](https://media.giphy.com/media/IIUBNICuVzCvY5tvov/giphy.gif)
 
