@@ -7,6 +7,17 @@
   <title>Travel Tracker</title>
 </head>
 <body>
+<section class="log-in-page" id="logInPage">
+  <form class="login-form">
+    <h1 class= login-text">Welcome! Please sign in</h1>
+    <div class="input-text-wrapper">
+      <input class="username-field" id="userNameField" type="text" name="username-field" placeholder="enter your username" required>
+      <input class="password-field" id="passWordField" type="text" name="password-field" placeholder="enter your password" required>
+      <button class="login-submit" id="logInSubmit" value="Login">Let's go!</button>
+    </div>
+  </form>
+</section>
+<section class="main-page hidden" id="mainPage">
   <div class="nav-wrapper">
     <nav class="top-nav">
       <div class="airplane-logo">
@@ -81,9 +92,9 @@
     </section>
   </div>
 </main>
+</section>
   
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
-
 </body>
 </html>
