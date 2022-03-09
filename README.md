@@ -14,6 +14,7 @@ This app is built using JavaScript, HTML, CSS, and utilizes Test Driven Developm
 - The user is able to make a request for a new trip, which will display in the 'Pending Trips' box
 - When requesting a new trip, the user will fill out a form that consists of choosing a location, dates, number of travelers, and the duration of the trip
 
+
  
 ![Book a Trip](https://media.giphy.com/media/IIUBNICuVzCvY5tvov/giphy.gif)
 
@@ -75,3 +76,5 @@ This application consists of a series of five class files and their correspondin
 ##### Challenges
 - Implementing Dayjs presented an opportunity to learn how to use plug-ins such as isSame
 - Webpack poses an added layer of abstraction in web development that, while extremely useful, decentralizes the structure of the user data and requires a higher level view to understand
+
+
