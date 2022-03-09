@@ -77,7 +77,7 @@ const parseAllData = (data, username) => {
   dataRepo.destinations = data[1].destinations.map(destination => new Destination(destination))
   
   allData = new DataRepo(dataRepo)
-  console.log(allData)
+  //console.log(allData)
   
   currentUserID = username
   getUserByID(currentUserID)
@@ -99,6 +99,7 @@ const parseMethods = () => {
   displayTravelerName(currentTraveler.name)
   displayPastTrips()
   displayAnnualCost()
+  console.log("TRAVTR", travelerTrips)
 }
 
 const createNewTrip = (event) => {
@@ -120,13 +121,14 @@ const createNewTrip = (event) => {
   postNewTrip(newTrip)
 
   .then(data => {pendingTripText.innerText += `${data.message}`
-  fetchAllData()})
+  })
   .catch(error => console.log(error))
   
   upcomingTripsBox.innerHTML = ''
   pastTripsBox.innerHTML = ''
   pendingTripsBox.innerHTML = ''
   form.reset()
+  fetchAllData()
 }
 
 const logIn = (event) => {
